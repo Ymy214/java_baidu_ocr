@@ -1,7 +1,9 @@
 package baiduOcr;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -10,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -31,11 +35,11 @@ public class FileChooserOCR extends JFrame implements ActionListener
 	public static final String secretKey = "FKVbH7EBcGy4DIaqPnXcqE47eACzn2W7";
 	
 	AipOcr client = new AipOcr(appId, apiKey, secretKey);
-	JButton open, b1, b2, b3;
-	JPanel ocrPanel;
+	JButton open, b1, b2, b3, b4, b5, b6;
+	JPanel ocrPanel, pNorth, pSouth, pWest, pEast, pCenter, pCenterLeft, pCenterRight;
 	JTextArea ocrText;
+	JLabel previewLabel;
 	JScrollPane areaScroll;
-	
 	// 构造方法
 	public FileChooserOCR()
 	{
@@ -45,8 +49,34 @@ public class FileChooserOCR extends JFrame implements ActionListener
 		b1 = new JButton("清空");
 		b2 = new JButton("复制");
 		b3 = new JButton("配置");
+		
+		//
+		previewLabel = new JLabel(new ImageIcon("./img/preview.jpg"));
+		pWest = new JPanel(new GridLayout());
+		pCenter = new JPanel(new GridLayout(0, 2));
+		pCenterLeft = new JPanel(new CardLayout());
+		pCenterRight = new JPanel(new CardLayout());
+		pCenterLeft.add(previewLabel);
+		
+		
+		b4 = new JButton("b4");
+		b5 = new JButton("b5");
+		b6 = new JButton("b6");
+		b4.setFont(new Font("宋体", Font.BOLD, 18));
+		b5.setFont(new Font("宋体", Font.BOLD, 18));
+		b6.setFont(new Font("宋体", Font.BOLD, 18));
+		pWest.add(b2);
+		pWest.add(b4);
+//		pWest.add(b5);
+//		pWest.add(b6);
+		
+		pCenter.add(pCenterLeft);
+		pCenter.add(pCenterRight);
+		
+		//
 		open.setFont(new Font("宋体", Font.BOLD, 18));
 		b3.setFont(new Font("宋体", Font.BOLD, 18));
+		
 		b2.setFont(new Font("宋体", Font.BOLD, 18));
 		b1.setFont(new Font("宋体", Font.BOLD, 18));
 		
@@ -64,11 +94,12 @@ public class FileChooserOCR extends JFrame implements ActionListener
 		ocrText.setEditable(true);
 		ocrText.setVisible(true);
 		ocrText.setFont(new Font("宋体", Font.BOLD, 18));
+		pCenterRight.add(ocrText);
 		ocrPanel.add(open, BorderLayout.NORTH);
 		ocrPanel.add(b1, BorderLayout.EAST);
-		ocrPanel.add(b2, BorderLayout.WEST);
+		ocrPanel.add(pWest, BorderLayout.WEST);
 		ocrPanel.add(b3, BorderLayout.SOUTH);
-		ocrPanel.add(ocrText, BorderLayout.CENTER);
+		ocrPanel.add(pCenter, BorderLayout.CENTER);
 //		ocrPanel.add(areaScroll);
 		ocrPanel.setSize(300, 300);
 		this.add(ocrPanel);
@@ -108,8 +139,10 @@ public class FileChooserOCR extends JFrame implements ActionListener
 			} 
 			else if (file.isFile())
 			{
+				String ocrImgPath = file.getAbsolutePath();
 				System.out.println("(选择文件) $ " + file.getAbsolutePath());
 				ocrText.setText("正在识别。。。");
+				previewLabel.setIcon(new ImageIcon(ocrImgPath));
 				String ocrStr = this.imgOcr(file.getAbsolutePath());
 				ocrText.setText(ocrStr);
 			}
