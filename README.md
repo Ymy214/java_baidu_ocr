@@ -332,7 +332,7 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 
 
 ```
-- **截图窗口类 ScreenShotTest.java**
+- **截图窗口类 ScreenShotTest.java（参考自:[https://www.jb51.net/article/48968.htm](https://www.jb51.net/article/48968.htm)）**
 ```java
 package baiduOcr;
 
