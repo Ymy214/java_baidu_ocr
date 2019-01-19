@@ -195,9 +195,13 @@ class ScreenShotWindow extends JWindow
 	// 返回截取的图片
 	public void okImage()
 	{
-		
+		ImageIcon previewImage = new ImageIcon(saveImage);
 		this.setVisible(false);
 		tools.setVisible(false);
+		// 图片缩放，用到了一个图片缩放算法
+//		previewImage.setImage(previewImage.getImage().getScaledInstance(340, 470, Image.SCALE_DEFAULT));
+		// 显示预览图片
+		superWin.previewLabel.setIcon(previewImage);;
 		superWin.printLabel.setText("输出：识别截图成功！！！");
 		ByteArrayOutputStream baos = null;
 		try

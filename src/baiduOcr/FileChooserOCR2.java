@@ -27,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 	JTextArea ocrText;
 	JLabel previewLabel, printLabel;
 	ImageIcon defaultPreviewImg;
-	JScrollPane areaScroll;
+	JScrollPane areaScroll, previewScroll;
 	String filePath = "./img/preview.jpg";
 	BufferedImage screenImage;// 用与子窗体给父窗体传值
 	// 构造方法
@@ -98,6 +99,7 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 
 		// 文本域的滚动条
 		areaScroll = new JScrollPane(ocrText);
+		previewScroll = new JScrollPane(previewLabel);
 		// 设置横向滚动条始终开启
 		// areaScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		// 设置垂直滚动条始终开启
@@ -106,7 +108,12 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 		areaScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		// 设置垂直滚动条自动(有需要时)开启
 		areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
+		// 设置横向滚动条自动(有需要时)开启
+		previewScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		// 设置垂直滚动条自动(有需要时)开启
+		previewScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
+		
 		// 添加监听
 		open.addActionListener(this);
 		re0.addActionListener(this);
@@ -116,10 +123,11 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 		reocr.addActionListener(this);
 
 		// 各组件依次加入相应方位面板
-		pCenterLeft.add(previewLabel);
+//		pCenterLeft.add(previewLabel);
 		// pCenterRight.add(ocrText);
 		pCenterRight.add(areaScroll);
-
+		pCenterLeft.add(previewScroll);
+		
 		pWest.add(reocr);
 		pWest.add(reset);
 
@@ -141,6 +149,15 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 		this.add(ocrPanel);
 		this.setBounds(400, 200, 900, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// 设置当前系统风格
+//		try
+//		{
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		} catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
 
 	}
 
@@ -194,8 +211,8 @@ public class FileChooserOCR2 extends JFrame implements ActionListener
 				ImageIcon ocrImg = new ImageIcon(filePath);
 				System.out.println("(选择文件) $ " + filePath);
 				ocrText.setText("正在识别。。。");
-				// 缩放后的图片，用到了一个图片缩放算法
-				ocrImg.setImage(ocrImg.getImage().getScaledInstance(340, 470, Image.SCALE_DEFAULT));
+				// 缩放后的图片，用到了一个图片缩放算法（是否启用图片缩放预览）
+//				ocrImg.setImage(ocrImg.getImage().getScaledInstance(340, 470, Image.SCALE_DEFAULT));
 				previewLabel.setIcon(ocrImg);
 				String ocrStr = imgOcr(filePath);
 				printLabel.setText("输出：正在识别。。。");
