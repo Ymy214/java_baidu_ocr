@@ -86,3 +86,6 @@ https://www.cnblogs.com/images/cnblogs_com/runtu/1377550/o_%e8%bd%af%e4%bb%b6%e7
 
 ### 最后，附上完整项目GitHub地址：
 https://github.com/Ymy214/java_baidu_ocr
+
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/Ymy214/java_baidu_ocr.svg?variant=adaptive)](https://starchart.cc/Ymy214/java_baidu_ocr)
